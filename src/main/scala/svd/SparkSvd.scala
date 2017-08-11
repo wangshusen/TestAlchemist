@@ -19,6 +19,7 @@ import org.nersc.io._
 object SparkSvd {
     def main(args: Array[String]) {
         val projpath: String = "/global/cscratch1/sd/wss/TestAlchemist"
+        //val projpath: String = "."
         val filepath: String = "/data/small_data.h5"
         //var logger = LoggerFactory.getLogger(getClass)
         val sc = new SparkContext()
