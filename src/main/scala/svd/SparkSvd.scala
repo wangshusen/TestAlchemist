@@ -23,7 +23,7 @@ object SparkSvd {
         val filepath: String = "/data/small_data.h5"
         //var logger = LoggerFactory.getLogger(getClass)
         val sc = new SparkContext()
-        val rdd = read.h5read_array(sc, projpath+filepath, "rows", 10)
+        val rdd = read.h5read(sc, projpath+filepath, "rows", 10)
         rdd.cache()
         val count= rdd.count()
         println(count)
