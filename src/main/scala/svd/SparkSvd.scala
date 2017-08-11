@@ -18,10 +18,11 @@ import org.nersc.io._
 
 object SparkSvd {
     def main(args: Array[String]) {
-        val filepath: String = "/global/cscratch1/sd/wss/mjo/Precipitation_rate_1979_to_1983.h5"
+        val projpath: String = "/global/cscratch1/sd/wss/TestAlchemist"
+        val filepath: String = "/data/small_data.h5"
         //var logger = LoggerFactory.getLogger(getClass)
         val sc = new SparkContext()
-        val rdd = read.h5read_array(sc, filepath, "rows", 100)
+        val rdd = read.h5read_array(sc, projpath+filepath, "rows", 10)
         rdd.cache()
         val count= rdd.count()
         println(count)
