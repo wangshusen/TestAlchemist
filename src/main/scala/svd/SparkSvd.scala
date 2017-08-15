@@ -49,7 +49,8 @@ object SparkSvd {
         val count= rdd.count()
         println(count)
         rdd.take(5).foreach(println)
-        sc.stop()
+        
+        spark.stop
     }
     
     def testSpark(k: Int, sc: SparkContext, labelVecRdd: RDD[(Int, Vector)]): Unit = {
@@ -78,7 +79,5 @@ object SparkSvd {
         println("Squared Frobenius error of rank " + k.toString + " SVD is " + err.toString)
         println("Squared Frobenius norm of A is " + sqFroNorm.toString)
         println("Relative Error is " + relativeError.toString)
-        
-        spark.stop
     }
 }
