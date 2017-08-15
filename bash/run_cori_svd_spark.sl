@@ -8,10 +8,13 @@
 #SBATCH -e giant_job_%j.err
 #SBATCH -o giant_job_%j.out
 
+
 PROJ_HOME="$SCRATCH/TestAlchemist"
 JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist-assembly-1.0.jar"
 DATA_FILE="$SCRATCH/mjo/Precipitation_rate_1979_to_1983_subset.h5"
 K="10"
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PROJ_HOME/lib
 
 module load spark
 ulimit -s unlimited
