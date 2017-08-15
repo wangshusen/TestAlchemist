@@ -46,20 +46,19 @@ object SparkSvd {
         
         val count= rdd.count()
         println(count)
-        rdd.take(5).foreach(println)
         
         spark.stop
     }
     
-    def testSpark(k: Int, sc: SparkContext, labelVecRdd: RDD[(Int, Vector)]): Unit = {
+    def testSpark(k: Int, sc: SparkContext, vecRdd: RDD[Vector]): Unit = {
         //// Compute the Squared Frobenius Norm
-        val sqFroNorm: Double = labelVecRdd.map(pair => Vectors.norm(pair._2, 2))
+        val sqFroNorm: Double = vecRdd.map(v => Vectors.norm(v, 2))
                                         .map(norm => norm * norm)
                                         .sum
         
         //// Spark Build-in Truncated SVD
         var t1 = System.nanoTime()
-        val mat: RowMatrix = new RowMatrix(labelVecRdd.map(pair => pair._2))
+        val mat: RowMatrix = new RowMatrix(vecRdd)
         val svd: SingularValueDecomposition[RowMatrix, Matrix] = mat.computeSVD(k, computeU=false)
         val v: Matrix = svd.V
         var t2 = System.nanoTime()
@@ -68,11 +67,11 @@ object SparkSvd {
         
         //// Compute Approximation Error
         val vBroadcast = sc.broadcast(v)
-        val err: Double = labelVecRdd
-                .map(pair => (pair._2, vBroadcast.value.transpose.multiply(pair._2)))
+        val err: Double = vecRdd
+                .map(vec => (vec, vBroadcast.value.transpose.multiply(vec)))
                 .map(pair => (pair._1, Vectors.dense(vBroadcast.value.multiply(pair._2).toArray)))
                 .map(pair => Vectors.sqdist(pair._1, pair._2))
-                .reduce((a, b) => a + b)
+                .sum
         val relativeError = err / sqFroNorm
         println("Squared Frobenius error of rank " + k.toString + " SVD is " + err.toString)
         println("Squared Frobenius norm of A is " + sqFroNorm.toString)
