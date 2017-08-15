@@ -7,8 +7,6 @@ K="10"
 MASTER="local[4]"
 NUM_FEATURE="50"
 
-DATA_FILE="$PROJ_HOME/data/covtype_perm"
-
 module load spark
 
 spark-submit \
