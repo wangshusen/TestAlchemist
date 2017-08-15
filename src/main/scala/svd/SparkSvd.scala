@@ -43,8 +43,6 @@ object SparkSvd {
         println("Time cost of starting Spark session is " + ((t2 - t1) * 1.0E-9).toString)
         println(" ")
         
-        //val filepath: String = "/global/cscratch1/sd/wss/TestAlchemist/data/small_data.h5"
-	    //val filepath: String = "/global/cscratch1/sd/wss/mjo/Precipitation_rate_1979_to_1983.h5"
         val rdd = read.h5read_irow(sc, filepath, "rows", 10).persist()
         val count= rdd.count()
         println(count)
