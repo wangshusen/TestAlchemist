@@ -37,7 +37,7 @@ object SparkSvd {
                       .builder()
                       .appName("Test Spark Truncated SVD")
                       .getOrCreate())
-        val sc = spark.sparkContext
+        val sc: SparkContext = spark.sparkContext
         sc.setLogLevel("ERROR")
         var t2 = System.nanoTime()
         println("Time cost of starting Spark session is " + ((t2 - t1) * 1.0E-9).toString)
@@ -52,7 +52,7 @@ object SparkSvd {
         sc.stop()
     }
     
-    def testSpark(k: Int, labelVecRdd: RDD[(Int, Vector)]): Unit = {
+    def testSpark(k: Int, sc: SparkContext, labelVecRdd: RDD[(Int, Vector)]): Unit = {
         //// Compute the Squared Frobenius Norm
         val sqFroNorm: Double = labelVecRdd.map(pair => Vectors.norm(pair._2, 2))
                                         .map(norm => norm * norm)
