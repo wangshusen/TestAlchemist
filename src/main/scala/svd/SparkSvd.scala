@@ -14,9 +14,6 @@ import org.apache.spark.mllib.linalg.{DenseMatrix, DenseVector}
 import org.apache.spark.mllib.linalg.distributed.RowMatrix
 import org.apache.spark.mllib.linalg.distributed.{IndexedRow, IndexedRowMatrix}
 import org.apache.spark.mllib.linalg.SingularValueDecomposition
-//breeze
-import breeze.linalg.{DenseVector => BDV, max, min, DenseMatrix => BDM, norm, diag, svd}
-import breeze.numerics._
 // others
 import scala.math
 import java.io._
@@ -43,7 +40,10 @@ object SparkSvd {
         println("Time cost of starting Spark session is " + ((t2 - t1) * 1.0E-9).toString)
         println(" ")
         
-        val rdd = read.h5read_irow(sc, filepath, "rows", 10).persist()
+        val rdd = read.h5read_vec(sc, filepath, "rows", 10).persist()
+        val sample = rdd.take(1)(0)
+        println("sample type is " + sample.getClass.toString)
+        
         val count= rdd.count()
         println(count)
         rdd.take(5).foreach(println)
