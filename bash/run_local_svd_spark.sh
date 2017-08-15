@@ -12,7 +12,7 @@ DATA_FILE="$PROJ_HOME/data/covtype_perm"
 module load spark
 
 spark-submit \
-    --class "alchemist.test.svd.SparkSvd" \
+    --class "alchemist.test.svd" \
     --master $MASTER \
     --driver-memory 8G \
     --executor-cores 1 \
