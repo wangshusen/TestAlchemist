@@ -8,7 +8,6 @@ import org.apache.spark.rdd._
 // spark-sql
 import org.apache.spark.sql.SparkSession
 // spark-mllib
-import org.apache.spark.mllib.clustering.{KMeans, KMeansModel}
 import org.apache.spark.mllib.linalg.{Vector, Vectors, Matrix, Matrices}
 import org.apache.spark.mllib.linalg.{DenseMatrix, DenseVector}
 import org.apache.spark.mllib.linalg.distributed.RowMatrix
@@ -47,10 +46,12 @@ object SparkSvd {
         val count= rdd.count()
         println(count)
         
+        SparkSvd.testSpark(k, sc, vecRdd)
+        
         spark.stop
     }
     
-    def testSpark(k: Int, sc: SparkContext, vecRdd: RDD[Vector]): Unit = {
+    def testSpark(k: Int, sc: SparkContext, vecRdd: RDD[DenseVector]): Unit = {
         //// Compute the Squared Frobenius Norm
         val sqFroNorm: Double = vecRdd.map(v => Vectors.norm(v, 2))
                                         .map(norm => norm * norm)
