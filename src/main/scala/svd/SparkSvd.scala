@@ -39,19 +39,21 @@ object SparkSvd {
         println("Time cost of starting Spark session is " + ((t2 - t1) * 1.0E-9).toString)
         println(" ")
         
-        val rdd = read.h5read_vec(sc, filepath, "rows", 10).persist()
+        val rdd = read.h5read_vec(sc, filepath, "rows", 10)
+                    .map(dv => Vectors.dense(dv.toArray))
+                    .persist()
         val sample = rdd.take(1)(0)
         println("sample type is " + sample.getClass.toString)
         
         val count= rdd.count()
         println(count)
         
-        SparkSvd.testSpark(k, sc, vecRdd)
+        SparkSvd.testSpark(k, sc, rdd)
         
         spark.stop
     }
     
-    def testSpark(k: Int, sc: SparkContext, vecRdd: RDD[DenseVector]): Unit = {
+    def testSpark(k: Int, sc: SparkContext, vecRdd: RDD[Vector]): Unit = {
         //// Compute the Squared Frobenius Norm
         val sqFroNorm: Double = vecRdd.map(v => Vectors.norm(v, 2))
                                         .map(norm => norm * norm)
