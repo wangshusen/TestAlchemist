@@ -11,7 +11,7 @@
 
 PROJ_HOME="$SCRATCH/TestAlchemist"
 JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
-DATA_FILE="$PROJ_HOME/data/mnist"
+DATA_FILE="$PROJ_HOME/data/mnist8m"
 RESULT_FILE="$PROJ_HOME/result/kmeans_results"
 NUM_CLUSTER="10"
 
