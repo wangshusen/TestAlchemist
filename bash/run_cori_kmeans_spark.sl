@@ -16,11 +16,15 @@ RESULT_FILE="$PROJ_HOME/result/kmeans_results"
 NUM_CLUSTER="10"
 
 module load spark
+module load python/3.5-anaconda
 ulimit -s unlimited
 start-all.sh
 
 spark-submit \
     --class "alchemist.test.svd.SparkKmeans" \
     $JAR_FILE $NUM_CLUSTER $DATA_FILE $RESULT_FILE
+    
+python $PROJ_HOME/result/kmeans_nmi.py -f $RESULT_FILE \
+    >> ResultTestKmeans.out
   
 stop-all.sh
