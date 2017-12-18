@@ -16,12 +16,11 @@ NUM_FEATURE="100"
 REG_PARAM='1E-2'
 
 module load spark
-module load python/3.5-anaconda
 ulimit -s unlimited
 start-all.sh
 
 spark-submit \
-    --class "alchemist.test.kmeans.SparkKmeans" \
+    --class "alchemist.test.kmeans.SparkRfmClassification" \
     $JAR_FILE $DATA_FILE $NUM_FEATURE $REG_PARAM
     
 stop-all.sh
