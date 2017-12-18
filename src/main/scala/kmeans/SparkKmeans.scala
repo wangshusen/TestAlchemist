@@ -1,4 +1,4 @@
-package alchemist.test.svd
+package alchemist.test.kmeans
 
 // spark-core
 import org.apache.spark.SparkContext
@@ -18,8 +18,6 @@ import org.apache.spark.mllib.clustering.{KMeans, KMeansModel}
 import scala.math
 import java.io._
 
-
-import org.nersc.io._
 
 
 object SparkKmeans {

@@ -19,7 +19,7 @@ JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
 
 spark-submit \
     --master $MASTER \
-    --class "alchemist.test.svd.SparkKmeans" \
+    --class "alchemist.test.kmeans.SparkKmeans" \
     $JAR_FILE $NUM_CLUSTER $DATA_FILE $RESULT_FILE \
     > ResultTestKmeans.out
     

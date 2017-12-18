@@ -21,7 +21,7 @@ ulimit -s unlimited
 start-all.sh
 
 spark-submit \
-    --class "alchemist.test.svd.SparkKmeans" \
+    --class "alchemist.test.kmeans.SparkKmeans" \
     $JAR_FILE $NUM_CLUSTER $DATA_FILE $RESULT_FILE
     
 python $PROJ_HOME/result/kmeans_nmi.py -f $RESULT_FILE \
