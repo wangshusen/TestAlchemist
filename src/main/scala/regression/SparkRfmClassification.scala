@@ -26,7 +26,7 @@ object SparkRfmClassification {
         val filepath: String = args(0).toString
         val numFeatures: Int = args(1).toInt
         val gamma: Double = args(2).toDouble
-        val numSplits: Int = args(3).toInt
+        val numSplits: Int = 100//args(3).toInt
         val numClass: Int = 10
         
         //// Launch Spark

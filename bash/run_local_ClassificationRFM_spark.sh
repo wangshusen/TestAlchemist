@@ -19,6 +19,6 @@ JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
 spark-submit \
     --master $MASTER \
     --class "alchemist.test.regression.SparkRfmClassification" \
-    $JAR_FILE $DATA_FILE $NUM_FEATURE $REG_PARAM $NUM_SPLIT \
+    $JAR_FILE $DATA_FILE $NUM_FEATURE $REG_PARAM \
     > ResultTestClassificationRfm.out
 
