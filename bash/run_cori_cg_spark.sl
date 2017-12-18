@@ -20,7 +20,7 @@ ulimit -s unlimited
 start-all.sh
 
 spark-submit \
-    --class "alchemist.test.SparkRfmClassification" \
+    --class "alchemist.test.regression.SparkRfmClassification" \
     $JAR_FILE $DATA_FILE $NUM_FEATURE $REG_PARAM
     
 stop-all.sh
