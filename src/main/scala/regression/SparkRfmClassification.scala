@@ -42,8 +42,12 @@ object SparkRfmClassification {
         println(" ")
         
         //// Load data and perform RFM
-        val rddRaw: RDD[(Int, Array[Double])] = SparkRfmClassification.loadLibsvmData(spark, filepath, numSplits).persist
-        //val rddRfm: RDD[(Double, Array[Double])] = SparkRfm.randomFeatureMap(rddRaw, numFeatures).persist
+        val rddRaw: RDD[(Int, Array[Double])] = SparkRfmClassification
+                                                    .loadLibsvmData(spark, filepath, numSplits)
+                                                    .persist()
+        val rddRfm: RDD[(Int, Array[Double])] = SparkRfmClassification
+                                                    .randomFeatureMap(rddRaw, numFeatures)
+                                                    .persist()
         
         
         def oneHotEncode(y: Int): Array[Double] = {
@@ -51,16 +55,14 @@ object SparkRfmClassification {
             yArray(y) = 1
             yArray
         }
-        val rddOneHot: RDD[(Array[Double], Array[Double])] = rddRaw.map(pair => (oneHotEncode(pair._1), pair._2))
-        
-        //println(rddOneHot.take(1)(0)._2.mkString(","))
-        //rddOneHot.take(20).map(pair => pair._1.mkString(" ")).foreach(println)
+        val rddOneHot: RDD[(Array[Double], Array[Double])] = rddRfm.map(pair => (oneHotEncode(pair._1), pair._2))
         
         
         //// Train ridge regression by CG
         val cg: CgMultiTask.Driver = new CgMultiTask.Driver(sc, rddOneHot)
         var maxIter: Int = 150
         cg.train(gamma, maxIter)
+        cg.trainMisclassify()
         /*
         var results: (Array[Double], Array[Double], Array[Double]) = cg.train(gamma, maxIter)
         println("\n ")
@@ -90,16 +92,20 @@ object SparkRfmClassification {
         rdd
     }
     
-    def randomFeatureMap(rdd: RDD[(Double, Array[Double])], numFeatures: Int): RDD[(Double, Array[Double])] = {
+    def randomFeatureMap(rdd: RDD[(Int, Array[Double])], numFeatures: Int): RDD[(Int, Array[Double])] = {
+        val rdd2: RDD[(Double, Array[Double])] = rdd.map(pair => (pair._1.toDouble, pair._2)).persist()
         //// estimate the kernel parameter (if it is unknown)
-        //var sigma: Double = rdd.glom.map(Kernel.estimateSigma).mean
+        //var sigma: Double = rdd2.glom.map(Kernel.estimateSigma).mean
         //sigma = math.sqrt(sigma)
         //println("Estimated sigma is " + sigma.toString)
-        var sigma: Double = 0.65 // YearPredictionMSD
+        var sigma: Double = 10.16 // MNIST
+        
         
         //// Random feature mapping
         val t1 = System.nanoTime()
-        val rfmRdd: RDD[(Double, Array[Double])] = rdd.mapPartitions(Kernel.rbfRfm(_, numFeatures, sigma)).persist
+        val rfmRdd: RDD[(Int, Array[Double])] = rdd2.mapPartitions(Kernel.rbfRfm(_, numFeatures, sigma))
+                                            .map(pair => (pair._1.toInt, pair._2))
+                                            .persist()
         val s = rfmRdd.take(1)(0)._2.size
         println("s = " + s.toString)
         var t2 = System.nanoTime()

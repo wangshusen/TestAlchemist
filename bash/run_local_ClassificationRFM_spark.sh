@@ -3,9 +3,9 @@
 
 # user specified
 PROJ_HOME="$HOME/Code/TestAlchemist"
-NUM_SPLIT="100"
-NUM_FEATURE="100"
-REG_PARAM='1E-2'
+NUM_SPLIT="1000"
+NUM_FEATURE="1000"
+REG_PARAM='1E-8'
 MASTER="local["$NUM_SPLIT"]"
 
 # the rest does not need change

@@ -40,9 +40,10 @@ class Driver(sc: SparkContext, data: RDD[(Array[Double], Array[Double])]) {
      * @return 
      */
     def train(gamma: Double, maxIter: Int): Unit = {
+        val t0 = System.nanoTime()
         val ngamma: Double = this.n * gamma
         w := DenseMatrix.zeros[Double](this.d, this.k)
-        var wBc: Broadcast[DenseMatrix[Double]] = this.sc.broadcast(w)
+        val wBc: Broadcast[DenseMatrix[Double]] = this.sc.broadcast(w)
         
         // setup the executors for training
         val rddTrain: RDD[Executor] = this.rdd
@@ -77,17 +78,23 @@ class Driver(sc: SparkContext, data: RDD[(Array[Double], Array[Double])]) {
                 rsnew(i) = r(::, i).toArray.map(a => a*a).sum
             }
             val rssum: Double = rsnew.toArray.sum
-            println("rs = " + rssum.toString)
+            val t1 = System.nanoTime()
+            println("rs = " + rssum.toString + ",  time = " + ((t1-t0)*1E-9).toString)
+            
+            if (rssum < 1E-20) return 
             
             for (i <- 0 until this.k) p(::, i) := r(::, i) + (rsnew(i) / rsold(i)) * p(::, i)
             for (i <- 0 until this.k) rsold(i) = rsnew(i)
         }
-        
-        wBc = this.sc.broadcast(w)
+    
+        this.w := w
+    }
+    
+    def trainMisclassify(): Double = {
+        var wBc: Broadcast[DenseMatrix[Double]] = this.sc.broadcast(this.w)
         val misclassify: Double = this.rdd.map(_.misclassify(wBc.value)).sum
         println("Misclassfication rate is " + (misclassify * this.nInv).toString)
-        
-        this.w := w
+        misclassify
     }
 }
 
