@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p debug
-#SBATCH -N 3
+#SBATCH -N 10
 #SBATCH -C haswell
-#SBATCH -t 00:30:00
+#SBATCH -t 00:60:00
 #SBATCH -J wss_giant
 #SBATCH -L SCRATCH
 #SBATCH -e giant_job_%j.err
@@ -11,7 +11,7 @@
 
 PROJ_HOME="$SCRATCH/TestAlchemist"
 JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
-DATA_FILE="$PROJ_HOME/data/mnist"
+DATA_FILE="$PROJ_HOME/data/mnist8m"
 NUM_FEATURE="2000"
 REG_PARAM='1E-8'
 
