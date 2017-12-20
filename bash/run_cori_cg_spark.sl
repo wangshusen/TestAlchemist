@@ -12,7 +12,7 @@
 PROJ_HOME="$SCRATCH/TestAlchemist"
 JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
 DATA_FILE="$PROJ_HOME/data/mnist8m"
-NUM_FEATURE="10000"
+NUM_FEATURE="5000"
 REG_PARAM='1E-8'
 
 module load spark
