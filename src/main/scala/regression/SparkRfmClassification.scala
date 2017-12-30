@@ -46,9 +46,9 @@ object SparkRfmClassification {
                                                     //.loadLibsvmData(spark, filepath, numSplits)
                                                     .loadCsvData(spark, filepath, numSplits)
                                                     .persist()
-        //val rddRfm: RDD[(Int, Array[Double])] = SparkRfmClassification
-        //                                            .randomFeatureMap(rddRaw, numFeatures)
-        //                                            .persist()
+        val rddRfm: RDD[(Int, Array[Double])] = SparkRfmClassification
+                                                    .randomFeatureMap(rddRaw, numFeatures)
+                                                    .persist()
         
         
         def oneHotEncode(y: Int): Array[Double] = {
@@ -56,7 +56,7 @@ object SparkRfmClassification {
             yArray(y) = 1
             yArray
         }
-        val rddOneHot: RDD[(Array[Double], Array[Double])] = rddRaw.map(pair => (oneHotEncode(pair._1), pair._2)).persist()
+        val rddOneHot: RDD[(Array[Double], Array[Double])] = rddRfm.map(pair => (oneHotEncode(pair._1), pair._2)).persist()
         
         println(rddOneHot.count)
         println(rddOneHot.take(1)(0)._1.mkString(" "))

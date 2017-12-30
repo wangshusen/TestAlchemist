@@ -4,7 +4,7 @@
 # user specified
 PROJ_HOME="$HOME/Code/TestAlchemist"
 NUM_SPLIT="1000"
-NUM_FEATURE="1000"
+NUM_FEATURE="300"
 REG_PARAM='1E-4'
 MASTER="local["$NUM_SPLIT"]"
 
