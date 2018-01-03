@@ -64,7 +64,7 @@ object SparkRfmClassification {
         
         //// Train ridge regression by CG
         val cg: CgMultiTask.Driver = new CgMultiTask.Driver(sc, rddOneHot)
-        var maxIter: Int = 150
+        var maxIter: Int = 500
         cg.train(gamma, maxIter)
         cg.trainMisclassify()
         spark.stop
