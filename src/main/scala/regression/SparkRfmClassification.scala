@@ -59,8 +59,8 @@ object SparkRfmClassification {
         val rddOneHot: RDD[(Array[Double], Array[Double])] = rddRfm.map(pair => (oneHotEncode(pair._1), pair._2)).persist()
         
         println(rddOneHot.count)
-        println(rddOneHot.take(1)(0)._1.mkString(" "))
-        println(rddOneHot.take(1)(0)._2.mkString(" "))
+        //println(rddOneHot.take(1)(0)._1.mkString(" "))
+        //println(rddOneHot.take(1)(0)._2.mkString(" "))
         
         //// Train ridge regression by CG
         val cg: CgMultiTask.Driver = new CgMultiTask.Driver(sc, rddOneHot)

@@ -3,7 +3,7 @@
 #SBATCH -N 20
 #SBATCH -C haswell
 #SBATCH -t 5:00:00
-#SBATCH -J wss_giant
+#SBATCH -J cg_timit
 #SBATCH -L SCRATCH
 #SBATCH -e cg_timit_job_%j.err
 #SBATCH -o cg_timit_job_%j.out
@@ -13,7 +13,7 @@ PROJ_HOME="$SCRATCH/TestAlchemist"
 JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
 #DATA_FILE="$PROJ_HOME/data/mnist8m"
 DATA_FILE="/global/cscratch1/sd/wss/data_timit/timit-train.csv"
-NUM_FEATURE="10000"
+NUM_FEATURE="5000"
 REG_PARAM='1E-5'
 
 module load spark
