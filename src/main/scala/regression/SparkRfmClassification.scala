@@ -109,10 +109,11 @@ object SparkRfmClassification {
     def randomFeatureMap(rdd: RDD[(Int, Array[Double])], numFeatures: Int): RDD[(Int, Array[Double])] = {
         val rdd2: RDD[(Double, Array[Double])] = rdd.map(pair => (pair._1.toDouble, pair._2)).persist()
         //// estimate the kernel parameter (if it is unknown)
-        var sigma: Double = rdd2.glom.map(Kernel.estimateSigma).mean
-        sigma = math.sqrt(sigma)
-        println("Estimated sigma is " + sigma.toString)
+        //var sigma: Double = rdd2.glom.map(Kernel.estimateSigma).mean
+        //sigma = math.sqrt(sigma)
+        //sprintln("Estimated sigma is " + sigma.toString)
         //var sigma: Double = 10.16 // MNIST
+        var sigma: Double = 42.64 // TIMIT
         
         
         //// Random feature mapping
