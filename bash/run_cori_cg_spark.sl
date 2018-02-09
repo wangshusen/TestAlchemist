@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p regular
-#SBATCH -N 10
+#SBATCH -N 20
 #SBATCH -C haswell
 #SBATCH -t 2:00:00
 #SBATCH -J cg_timit
@@ -13,7 +13,7 @@ PROJ_HOME="$SCRATCH/TestAlchemist"
 JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
 #DATA_FILE="$PROJ_HOME/data/mnist8m"
 DATA_FILE="/global/cscratch1/sd/wss/data_timit/timit-train.csv"
-NUM_FEATURE="5000"
+NUM_FEATURE="10000"
 REG_PARAM="1E-5"
 NUM_SPLIT="119"
 
