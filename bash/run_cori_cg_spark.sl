@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH -p regular
-#SBATCH -N 20
+#SBATCH -N 10
 #SBATCH -C haswell
-#SBATCH -t 5:00:00
+#SBATCH -t 2:00:00
 #SBATCH -J cg_timit
 #SBATCH -L SCRATCH
 #SBATCH -e cg_timit_job_%j.err
