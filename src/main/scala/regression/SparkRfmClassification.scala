@@ -26,7 +26,7 @@ object SparkRfmClassification {
         val filepath: String = args(0).toString
         val numFeatures: Int = args(1).toInt
         val gamma: Double = args(2).toDouble
-        val numSplits: Int = 100//args(3).toInt
+        val numSplits: Int = args(3).toInt
         val numClass: Int = 147 //10
         
         //// Launch Spark
@@ -76,6 +76,7 @@ object SparkRfmClassification {
         val df = spark.read.format("csv").load(filepath)
         val rdd: RDD[Array[Double]] = df.rdd
                 .map(vec => Vectors.parse(vec.toString).toArray)
+                .coalesce(numSplits)
                 .persist()
         //val n: Long = rdd.count()
         val d: Int = rdd.take(1)(0).size
@@ -96,6 +97,7 @@ object SparkRfmClassification {
         val df = spark.read.format("libsvm").load(filepath)
         val rdd: RDD[(Int, Array[Double])] = df.rdd
                 .map(pair => (pair(0).toString.toFloat.toInt, Vectors.parse(pair(1).toString).toArray))
+                .coalesce(numSplits)
                 .persist()
         val count = rdd.count()
         println("n = " + count.toString)

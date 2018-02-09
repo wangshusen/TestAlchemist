@@ -14,7 +14,8 @@ JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
 #DATA_FILE="$PROJ_HOME/data/mnist8m"
 DATA_FILE="/global/cscratch1/sd/wss/data_timit/timit-train.csv"
 NUM_FEATURE="5000"
-REG_PARAM='1E-5'
+REG_PARAM="1E-5"
+NUM_SPLIT="119"
 
 module load spark
 ulimit -s unlimited
@@ -22,6 +23,6 @@ start-all.sh
 
 spark-submit \
     --class "alchemist.test.regression.SparkRfmClassification" \
-    $JAR_FILE $DATA_FILE $NUM_FEATURE $REG_PARAM
+    $JAR_FILE $DATA_FILE $NUM_FEATURE $REG_PARAM $NUM_SPLIT
     
 stop-all.sh
