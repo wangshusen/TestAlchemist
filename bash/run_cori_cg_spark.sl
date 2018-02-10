@@ -2,7 +2,7 @@
 #SBATCH -p regular
 #SBATCH -N 20
 #SBATCH -C haswell
-#SBATCH -t 2:00:00
+#SBATCH -t 8:00:00
 #SBATCH -J cg_timit
 #SBATCH -L SCRATCH
 #SBATCH -e cg_timit_job_%j.err
@@ -15,7 +15,7 @@ JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
 DATA_FILE="/global/cscratch1/sd/wss/data_timit/timit-train.csv"
 NUM_FEATURE="10000"
 REG_PARAM="1E-5"
-NUM_SPLIT="119"
+NUM_SPLIT="199"
 
 module load spark
 ulimit -s unlimited
@@ -23,6 +23,11 @@ start-all.sh
 
 spark-submit \
     --class "alchemist.test.regression.SparkRfmClassification" \
+    --num-executors $NUM_SPLIT \
+    --driver-cores 3 \
+    --executor-cores 3 \
+    --driver-memory 10G \
+    --executor-memory 10G \
     $JAR_FILE $DATA_FILE $NUM_FEATURE $REG_PARAM $NUM_SPLIT
     
 stop-all.sh
