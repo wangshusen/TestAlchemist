@@ -30,7 +30,8 @@ class Driver(sc: SparkContext, data: RDD[(Array[Double], Array[Double])]) {
     
     // initialize executors
     val rdd: RDD[Executor] = data.glom.map(new Executor(_)).persist()
-    val xy: DenseMatrix[Double] = rdd.map(_.xy).reduce((a,b) => a+b)
+    //val xy: DenseMatrix[Double] = rdd.map(_.xy).reduce((a,b) => a+b)
+    val xy: DenseMatrix[Double] = rdd.map(_.xy).treeReduce((a,b) => a+b)
     println("The driver is initialized!")
     
     /**
