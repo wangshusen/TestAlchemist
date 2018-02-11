@@ -82,7 +82,7 @@ class Driver(sc: SparkContext, data: RDD[(Array[Double], Array[Double])]) {
             val t1 = System.nanoTime()
             println("rs = " + rssum.toString + ",  time = " + ((t1-t0)*1E-9).toString)
             
-            if (rssum < 1E-20) return 
+            if (rssum < 1E-8) return 
             
             for (i <- 0 until this.k) p(::, i) := r(::, i) + (rsnew(i) / rsold(i)) * p(::, i)
             for (i <- 0 until this.k) rsold(i) = rsnew(i)
