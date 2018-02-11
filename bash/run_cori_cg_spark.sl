@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p regular
-#SBATCH -N 20
+#SBATCH -N 40
 #SBATCH -C haswell
 #SBATCH -t 8:00:00
 #SBATCH -J cg_timit
@@ -15,7 +15,7 @@ JAR_FILE="$PROJ_HOME/target/scala-2.11/testalchemist_2.11-1.0.jar"
 DATA_FILE="/global/cscratch1/sd/wss/data_timit/timit-train.csv"
 NUM_FEATURE="10000"
 REG_PARAM="1E-5"
-NUM_SPLIT="199"
+NUM_SPLIT="399"
 
 module load spark
 ulimit -s unlimited
