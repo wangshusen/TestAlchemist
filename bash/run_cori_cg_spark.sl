@@ -2,7 +2,7 @@
 #SBATCH -p regular
 #SBATCH -N 40
 #SBATCH -C haswell
-#SBATCH -t 8:00:00
+#SBATCH -t 2:00:00
 #SBATCH -J cg_timit
 #SBATCH -L SCRATCH
 #SBATCH -e cg_timit_job_%j.err
